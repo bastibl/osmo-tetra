@@ -31,6 +31,7 @@
 #include <tetra_common.h>
 #include <lower_mac/tetra_conv_enc.h>
 
+#if 0
 static char *dump_state(struct conv_enc_state *ces)
 {
 	static char pbuf[1024];
@@ -38,6 +39,7 @@ static char *dump_state(struct conv_enc_state *ces)
 		ces->delayed[1], ces->delayed[2], ces->delayed[3]);
 	return pbuf;
 }
+#endif
 
 /* Mother code according to Section 8.2.3.1.1 */
 static uint8_t conv_enc_in_bit(struct conv_enc_state *ces, uint8_t bit, uint8_t *out)

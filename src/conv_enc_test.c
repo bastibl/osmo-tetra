@@ -306,8 +306,11 @@ int build_sb()
 
 int main(int argc, char **argv)
 {
-	int err, i;
+	int i;
+#if 0
+	int err;
 	uint16_t out;
+#endif
 	uint32_t ret;
 
 	/* first: run some subsystem tests */

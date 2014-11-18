@@ -40,6 +40,7 @@ class top_block(grc_wxgui.top_block_gui):
 
     self.ifreq = options.frequency
     self.rfgain = options.gain
+    self.offset = options.frequency_offset
 
     self.src = osmosdr.source(options.args)
     self.src.set_center_freq(self.ifreq)
@@ -173,8 +174,8 @@ class top_block(grc_wxgui.top_block_gui):
         if abs(x / (sample_rate / 2)) > 0.9:
             set_ifreq(self.ifreq + x / 2)
         else:
-            sys.stderr.write("coarse tuned to: %d Hz\n" % x)
             self.offset = -x
+            sys.stderr.write("coarse tuned to: %d Hz => %d Hz\n" % (self.offset, (self.ifreq + self.offset)))
             self.tuner.set_center_freq(self.offset)
 
     self.scope = fftsink2.fft_sink_c(self.Main.GetPage(0).GetWin(),
@@ -195,7 +196,7 @@ class top_block(grc_wxgui.top_block_gui):
 
     def fftsink2_callback2(x, y):
         self.offset = self.offset - (x / 10)
-        sys.stderr.write("fine tuned to: %d Hz\n" % self.offset)
+        sys.stderr.write("fine tuned to: %d Hz => %d Hz\n" % (self.offset, (self.ifreq + self.offset)))
         self.tuner.set_center_freq(self.offset)
 
     self.scope2 = fftsink2.fft_sink_c(self.Main.GetPage(1).GetWin(),
@@ -240,6 +241,8 @@ def get_options():
         help="set receiver sample rate (default 1800000)")
     parser.add_option("-f", "--frequency", type="eng_float", default=394.4e6,
         help="set receiver center frequency")
+    parser.add_option("-F", "--frequency-offset", type="eng_float", default=0,
+        help="set receiver offset frequency")
     parser.add_option("-g", "--gain", type="eng_float", default=None,
         help="set receiver gain")
 

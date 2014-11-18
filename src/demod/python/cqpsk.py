@@ -27,7 +27,7 @@
 differential PI/4 CQPSK modulation and demodulation.
 """
 
-from gnuradio import gr, gru, blocks, analog, filter
+from gnuradio import gr, gru, blocks, analog, filter, digital
 from gnuradio.filter import firdes
 from math import pi, sqrt
 #import psk

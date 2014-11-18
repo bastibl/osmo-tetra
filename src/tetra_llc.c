@@ -28,6 +28,7 @@
 #include <osmocom/core/bits.h>
 
 #include "tetra_llc_pdu.h"
+#include "tuntap.h"
 
 static int tun_fd = -1;
 
@@ -78,7 +79,7 @@ static int tllc_defrag_in(struct tllc_state *llcs,
 	return 0;
 }
 
-static int tllc_defrag_out(struct tllc_state *llcs,
+static void tllc_defrag_out(struct tllc_state *llcs,
 			   struct tetra_llc_pdu *lpp)
 {
 	struct tllc_defrag_q_e *dqe;
@@ -146,6 +147,18 @@ int rx_tm_sdu(struct msgb *msg, unsigned int len)
 		tllc_defrag_in(&g_llcs, &lpp, msg, len);
 		/* check if the fragment is complete and hand it off*/
 		tllc_defrag_out(&g_llcs, &lpp);
+		break;
+	case TLLC_PDUT_DEC_UNKNOWN:
+		// TODO: currently not handled!
+		// FIXME
+		break;
+	case TLLC_PDUT_DEC_ALX_ACK:
+		// TODO: currently not handled!
+		// FIXME
+		break;
+	case TLLC_PDUT_DEC_ALX_RNR:
+		// TODO: currently not handled!
+		// FIXME
 		break;
 	}
 

@@ -314,12 +314,20 @@ void tetra_burst_rx_cb(const uint8_t *burst, unsigned int len, enum tetra_train_
 	uint8_t ndbf_buf[2*NDB_BLK_BITS];
 
 	switch (type) {
+	case TETRA_TRAIN_EXT:
+		// TODO: currently not handled!
+		// FIXME
+		break;
 	case TETRA_TRAIN_SYNC:
 		/* Split SB1, SB2 and Broadcast Block */
 		/* send three parts of the burst via TP-SAP into lower MAC */
 		tp_sap_udata_ind(TPSAP_T_SB1, burst+SB_BLK1_OFFSET, SB_BLK1_BITS, priv);
 		tp_sap_udata_ind(TPSAP_T_BBK, burst+SB_BBK_OFFSET, SB_BBK_BITS, priv);
 		tp_sap_udata_ind(TPSAP_T_SB2, burst+SB_BLK2_OFFSET, SB_BLK2_BITS, priv);
+		break;
+	case TETRA_TRAIN_NORM_3:
+		// TODO: currently not handled!
+		// FIXME
 		break;
 	case TETRA_TRAIN_NORM_2:
 		/* re-combine the broadcast block */
